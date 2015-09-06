@@ -13,6 +13,8 @@ public interface Constants {
     // Window Size
     public static final int WINDOW_WIDTH = 500;
     public static final int WINDOW_HEIGHT = 500;
+    public static final int PANEL_WIDTH = 200;
+    public static final int PANEL_HEIGHT = 200;
 
     // Lives
     public static final int MAX_LIVES = 5;
