@@ -35,7 +35,7 @@ public class Main  implements Constants {
     private static Board board;
     private static Dimension dim;
     private static JPanel rightPanel;
-    // Build and run the game
+    //	 Build and run the game
     public static void main(String[] args) {
         // Set look and feel to that of OS
         try {
@@ -43,15 +43,17 @@ public class Main  implements Constants {
         } catch (Exception e) {
             e.printStackTrace();
         }
-        BorderLayout layout = new BorderLayout(0,2);
+        BorderLayout layout = new BorderLayout();
         frame = new JFrame("Brick Breaker 1.0");
-        frame.setSize(WINDOW_WIDTH, WINDOW_HEIGHT);
+   
+        //frame.setPreferredSize(new Dimension(800, 800));
+        frame.setSize(WINDOW_WIDTH+PANEL_WIDTH, WINDOW_HEIGHT);
         frame.setResizable(true);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.setLayout(layout);
         board = new Board(WINDOW_WIDTH, WINDOW_HEIGHT);
-        frame.add(board,layout.CENTER);
-       
+        frame.add(board, layout.CENTER);
+        frame.add(dashboard(),layout.EAST);
         // Place frame in the middle of the screen
         try {
     		dim = Toolkit.getDefaultToolkit().getScreenSize();
@@ -62,7 +64,7 @@ public class Main  implements Constants {
         }
 
         frame.setVisible(true);
-		frame.add(dashboard(),layout.EAST);
+		
     }
 
 
