@@ -11,10 +11,9 @@ package com.breakoutv2;
 
 public interface Constants {
     // Window Size
-    public static final int WINDOW_WIDTH = 500;
+    public static final int WINDOW_WIDTH = 510;
     public static final int WINDOW_HEIGHT = 500;
-    public static final int PANEL_WIDTH = 200;
-    public static final int PANEL_HEIGHT = 200;
+    public static final int PANEL_WIDTH = 100;
 
     // Lives
     public static final int MAX_LIVES = 5;

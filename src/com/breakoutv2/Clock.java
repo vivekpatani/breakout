@@ -23,6 +23,11 @@ public class Clock  extends Structure implements Observer {
         time = 0;
     }
     
+    //reset clock back to 0
+    public void reset() {
+    	this.time = 0;
+    }
+    
     @Override
     public void draw(Graphics g) {
         g.setColor(color);

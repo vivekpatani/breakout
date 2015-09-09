@@ -53,7 +53,7 @@ public class Board extends JPanel implements Runnable, Constants, Subject {
                 PADDLE_HEIGHT, Color.BLACK);
         ball = new Ball(BALL_X_START, BALL_Y_START, BALL_WIDTH, BALL_HEIGHT,
                 Color.BLACK);
-        clock = new Clock(STATUS_LOCATION_X, getHeight() / 2, BALL_WIDTH, BALL_HEIGHT,
+        clock = new Clock(STATUS_LOCATION_X, getHeight() - getHeight()/2, BALL_WIDTH, BALL_HEIGHT,
                 Color.red);
         observers = new ArrayList<Observer>();
         register(ball);
@@ -67,9 +67,11 @@ public class Board extends JPanel implements Runnable, Constants, Subject {
     private void makeBricks() {
         for (int i = 0; i < 10; i++) {
             for (int j = 0; j < 5; j++) {
-                brick[i][j] = new Brick((i * BRICK_WIDTH),
+                brick[i][j] = new Brick((i * BRICK_WIDTH) + 10,
                         ((j * BRICK_HEIGHT) + (BRICK_HEIGHT / 2)),
-                        BRICK_WIDTH - 5, BRICK_HEIGHT - 5, Color.blue);
+                        BRICK_WIDTH - 5, 
+                        BRICK_HEIGHT - 5, 
+                        Color.blue);
             }
         }
     }
@@ -98,7 +100,6 @@ public class Board extends JPanel implements Runnable, Constants, Subject {
                 checkLives();
                 checkIfOut(y1);
                 notifyObservers();
-                clock.update(TIME_STEP);
                 repaint();
 
                 try {
@@ -207,6 +208,7 @@ public class Board extends JPanel implements Runnable, Constants, Subject {
             lives--;
             score -= 100;
             ball.reset();
+            clock.reset();
             repaint();
             stop();
         }
