@@ -45,4 +45,10 @@ public class Paddle extends Structure {
         return false;
     }
 
+    // makes use of the command interface. this is the execution performed 
+    //when key is pressed
+	public void move(int dx, int dy) {
+		setX(getX() + dx);
+	}
+
 }

@@ -22,6 +22,7 @@ import javax.swing.JPanel;
 
 public class Board extends JPanel implements Runnable, Constants, Subject {
     private final int STATUS_LOCATION_X = 10, TIME_STEP = 5;
+    private PaddleMoveCommand paddleMoveCommand;
     // Items on-screen
     private Paddle paddle;
     private Ball ball;
@@ -55,6 +56,7 @@ public class Board extends JPanel implements Runnable, Constants, Subject {
                 Color.BLACK);
         clock = new Clock(STATUS_LOCATION_X, getHeight() - getHeight()/2, BALL_WIDTH, BALL_HEIGHT,
                 Color.red);
+        paddleMoveCommand = new PaddleMoveCommand(paddle);
         observers = new ArrayList<Observer>();
         register(ball);
         register(clock);
@@ -282,10 +284,10 @@ public class Board extends JPanel implements Runnable, Constants, Subject {
                 }
             }
             if (key == KeyEvent.VK_LEFT) {
-                paddle.setX(paddle.getX() - 50);
+                paddleMoveCommand.execute(-50, 0);
             }
             if (key == KeyEvent.VK_RIGHT) {
-                paddle.setX(paddle.getX() + 50);
+                paddleMoveCommand.execute(50, 0);
             }
         }
         
