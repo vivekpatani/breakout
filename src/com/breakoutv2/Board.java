@@ -22,6 +22,8 @@ import javax.swing.JPanel;
 
 public class Board extends JPanel implements Runnable, Constants, Subject {
     private final int STATUS_LOCATION_X = 10, TIME_STEP = 5;
+    //commands
+    private MacroUndoCommand macroUndoCommand;
     private PaddleMoveCommand paddleMoveCommand;
     private ClockIncrementCommand clockIncrementCommand;
     private BallMoveCommand ballMoveCommand;
@@ -61,6 +63,12 @@ public class Board extends JPanel implements Runnable, Constants, Subject {
         this.paddleMoveCommand = new PaddleMoveCommand(paddle);
         this.clockIncrementCommand = new ClockIncrementCommand(clock);
         this.ballMoveCommand = new BallMoveCommand(ball);
+        //undo macro registering elementings in command list
+        this.macroUndoCommand = new MacroUndoCommand();
+        this.macroUndoCommand.add(this.paddleMoveCommand);
+        this.macroUndoCommand.add(this.ballMoveCommand);
+        this.macroUndoCommand.add(this.clockIncrementCommand);
+        
         observers = new ArrayList<Observer>();
         register(ball);
         register(clock);

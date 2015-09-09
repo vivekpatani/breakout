@@ -1,5 +1,7 @@
 package com.breakoutv2;
 
+import java.util.ArrayList;
+
 /*
  * ClockIncrementCommand
  * 
@@ -9,20 +11,23 @@ package com.breakoutv2;
  */
 public class ClockIncrementCommand implements Command{
 	private Clock clock;
-	private int prevTime;
+	private ArrayList<Integer> prevTime;
 
 	public ClockIncrementCommand(Clock clock) {
 		this.clock = clock;
+		this.prevTime = new ArrayList<Integer>();
 	}
 	@Override
 	public void execute(int dx, int dy) {
-		this.prevTime = this.clock.getTime();
+		this.prevTime.add(this.clock.getTime());
 	}
 
 	@Override
 	public void undo() {
-		// TODO Auto-generated method stub
-		this.clock.setTime(this.prevTime);
+		if(this.prevTime.size() > 0) {
+			this.clock.setTime(this.prevTime.get(this.prevTime.size()-1));
+			this.prevTime.remove(this.prevTime.size()-1);
+			//TODO redraw clock
+		}
 	}
-
 }

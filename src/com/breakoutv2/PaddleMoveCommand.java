@@ -1,5 +1,7 @@
 package com.breakoutv2;
 
+import java.util.ArrayList;
+
 /*
  * PaddleMoveCommand.java
  * 
@@ -11,20 +13,25 @@ package com.breakoutv2;
 
 public class PaddleMoveCommand implements Command{
 	private Paddle paddle;
-	private int prevPos;
+	private ArrayList<Paddle> prevPaddle;
 	
 	public PaddleMoveCommand(Paddle paddle) {
 		this.paddle = paddle;
+		this.prevPaddle = new ArrayList<Paddle>();
 	}
 	
 	@Override
 	public void execute(int dx, int dy) {
-		this.prevPos = this.paddle.getX();
+		this.prevPaddle.add(this.paddle);
 		this.paddle.move(dx, dy);
 	}
 	
 	@Override
 	public void undo() {
-		this.paddle.move(this.prevPos, 0);
+		if (this.prevPaddle.size()  > 0) {
+			this.paddle = this.prevPaddle.get(this.prevPaddle.size()-1);
+			this.prevPaddle.remove(this.prevPaddle.size()-1);
+			//TODO redraw the paddle
+		}
 	}
 }
