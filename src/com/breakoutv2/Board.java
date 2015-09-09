@@ -23,6 +23,8 @@ import javax.swing.JPanel;
 public class Board extends JPanel implements Runnable, Constants, Subject {
     private final int STATUS_LOCATION_X = 10, TIME_STEP = 5;
     private PaddleMoveCommand paddleMoveCommand;
+    private ClockIncrementCommand clockIncrementCommand;
+    private BallMoveCommand ballMoveCommand;
     // Items on-screen
     private Paddle paddle;
     private Ball ball;
@@ -32,7 +34,7 @@ public class Board extends JPanel implements Runnable, Constants, Subject {
 
     // Initial Values for some important variables
     private int score = 0, lives = MAX_LIVES, bricksLeft = MAX_BRICKS,
-             xSpeed, level = 1;
+             xSpeed, ySpeed, level = 1;
 
     // Player's name
     private String playerName;
@@ -56,7 +58,9 @@ public class Board extends JPanel implements Runnable, Constants, Subject {
                 Color.BLACK);
         clock = new Clock(STATUS_LOCATION_X, getHeight() - getHeight()/2, BALL_WIDTH, BALL_HEIGHT,
                 Color.red);
-        paddleMoveCommand = new PaddleMoveCommand(paddle);
+        this.paddleMoveCommand = new PaddleMoveCommand(paddle);
+        this.clockIncrementCommand = new ClockIncrementCommand(clock);
+        this.ballMoveCommand = new BallMoveCommand(ball);
         observers = new ArrayList<Observer>();
         register(ball);
         register(clock);
@@ -134,14 +138,18 @@ public class Board extends JPanel implements Runnable, Constants, Subject {
 
     private void checkPaddle(int x1, int y1) {
         if (paddle.hitPaddle(x1, y1) && ball.getXDir() < 0) {
-            ball.setYDir(-1);
+            //ball.setYDir(-1);
             xSpeed = -1;
-            ball.setXDir(xSpeed);
+            ySpeed = -1;
+            //ball.setXDir(xSpeed);
+            ballMoveCommand.execute(xSpeed, ySpeed);
         }
         if (paddle.hitPaddle(x1, y1) && ball.getXDir() > 0) {
-            ball.setYDir(-1);
+            //ball.setYDir(-1);
             xSpeed = 1;
-            ball.setXDir(xSpeed);
+            ySpeed = -1;
+            //ball.setXDir(xSpeed);
+            ballMoveCommand.execute(xSpeed, ySpeed);
         }
         if (paddle.getX() <= 0) {
             paddle.setX(0);
@@ -154,17 +162,23 @@ public class Board extends JPanel implements Runnable, Constants, Subject {
     private void checkWall(int x1, int y1) {
         if (x1 >= getWidth() - ball.getWidth()) {
             xSpeed = -Math.abs(xSpeed);
-            ball.setXDir(xSpeed);
+            //ball.setXDir(xSpeed);
+            ballMoveCommand.execute(xSpeed, ball.getYDir());
         }
         if (x1 <= 0) {
             xSpeed = Math.abs(xSpeed);
-            ball.setXDir(xSpeed);
+            //ball.setXDir(xSpeed);
+            ballMoveCommand.execute(xSpeed, ball.getYDir());
         }
         if (y1 <= 0) {
-            ball.setYDir(1);
+            //ball.setYDir(1);
+            ySpeed = 1;
+            ballMoveCommand.execute(ball.getXDir() , ySpeed);
         }
         if (y1 >= getHeight()) {
-            ball.setYDir(-1);
+            //ball.setYDir(-1);
+        	ySpeed = -1;
+        	ballMoveCommand.execute(ball.getXDir(), ySpeed);
         }
     }
 
@@ -172,7 +186,9 @@ public class Board extends JPanel implements Runnable, Constants, Subject {
         for (int i = 0; i < 10; i++) {
             for (int j = 0; j < 5; j++) {
                 if (brick[i][j].hitBottom(x1, y1)) {
-                    ball.setYDir(1);
+                    //ball.setYDir(1);
+                	ySpeed = 1;
+                    ballMoveCommand.execute(ball.getXDir(), ySpeed);
                     if (brick[i][j].isDestroyed()) {
                         bricksLeft--;
                         score += 50;
@@ -180,7 +196,8 @@ public class Board extends JPanel implements Runnable, Constants, Subject {
                 }
                 if (brick[i][j].hitLeft(x1, y1)) {
                     xSpeed = -xSpeed;
-                    ball.setXDir(xSpeed);
+                    //ball.setXDir(xSpeed);
+                    ballMoveCommand.execute(xSpeed, ball.getYDir());
                     if (brick[i][j].isDestroyed()) {
                         bricksLeft--;
                         score += 50;
@@ -188,14 +205,17 @@ public class Board extends JPanel implements Runnable, Constants, Subject {
                 }
                 if (brick[i][j].hitRight(x1, y1)) {
                     xSpeed = -xSpeed;
-                    ball.setXDir(xSpeed);
+                    //ball.setXDir(xSpeed);
+                    ballMoveCommand.execute(xSpeed, ball.getYDir());
                     if (brick[i][j].isDestroyed()) {
                         bricksLeft--;
                         score += 50;
                     }
                 }
                 if (brick[i][j].hitTop(x1, y1)) {
-                    ball.setYDir(-1);
+                    //ball.setYDir(-1);
+                    ySpeed = -1;
+                    ballMoveCommand.execute(ball.getXDir(), ySpeed);
                     if (brick[i][j].isDestroyed()) {
                         bricksLeft--;
                         score += 50;
@@ -252,6 +272,7 @@ public class Board extends JPanel implements Runnable, Constants, Subject {
     }
     
     public void notifyObservers() {
+    	clockIncrementCommand.execute(0, 0);
         for (Observer observer : observers) {
             observer.update(TIME_STEP);
         }

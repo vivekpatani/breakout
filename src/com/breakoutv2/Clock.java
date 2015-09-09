@@ -28,6 +28,14 @@ public class Clock  extends Structure implements Observer {
     	this.time = 0;
     }
     
+    public int getTime() {
+    	return this.time;
+    }
+
+	public void setTime(int prevTime) {
+		this.time = prevTime;
+	}
+    
     @Override
     public void draw(Graphics g) {
         g.setColor(color);
@@ -45,5 +53,4 @@ public class Clock  extends Structure implements Observer {
     public void update(int timeStep) {
         time = (time + timeStep) % (3600 * MILLISEC_TO_SEC);
     }
-    
 }

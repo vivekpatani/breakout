@@ -66,6 +66,11 @@ public class Ball extends Structure implements Observer {
     public boolean isOnScreen() {
         return onScreen;
     }
+    
+	public void move(int dx, int dy) {
+		setYDir(dy);
+		setXDir(dx);
+	}
 
     @Override
     public void update(int timeStep) {
