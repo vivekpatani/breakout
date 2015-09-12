@@ -20,9 +20,16 @@ public class PaddleMoveCommand implements Command{
 		this.prevPaddle = new ArrayList<Paddle>();
 	}
 	
+	public void paddleSave() {
+		this.prevPaddle.add(paddle);
+	}
+	
+	public void save() {
+		paddleSave();
+	}
 	@Override
 	public void execute(int dx, int dy) {
-		this.prevPaddle.add(this.paddle);
+		//this.prevPaddle.add(this.paddle);
 		this.paddle.move(dx, dy);
 	}
 	

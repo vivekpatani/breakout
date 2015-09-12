@@ -17,9 +17,17 @@ public class ClockIncrementCommand implements Command{
 		this.clock = clock;
 		this.prevTime = new ArrayList<Integer>();
 	}
+	
+	public void clockSave() {
+		this.prevTime.add(clock.getTime());
+	}
+	
+	public void save() {
+		clockSave();
+	}
 	@Override
 	public void execute(int dx, int dy) {
-		this.prevTime.add(this.clock.getTime());
+		//this.prevTime.add(this.clock.getTime());
 	}
 
 	@Override

@@ -17,10 +17,18 @@ public class BallMoveCommand implements Command {
 		this.ball = ball;
 		this.prevBall = new ArrayList<Ball>();
 	}
+	
+	public void ballSave() {
+		this.prevBall.add(ball);
+	}
+	
+	public void save() {
+		ballSave();
+	}
 
 	@Override
 	public void execute(int dx, int dy) {
-		this.prevBall.add(this.ball);
+		//this.prevBall.add(this.ball);
 		this.ball.move(dx, dy);
 	}
 

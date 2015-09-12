@@ -15,6 +15,13 @@ public class MacroUndoCommand implements Command{
 		this.commands.add(command);
 	}
 	
+	//saves all commands (history of moves)
+	public void macroSave() {
+		for(int i = 0; i < commands.size(); i++) {
+			commands.get(i).save();
+		}
+	}
+	
 	// in case the command is not necessary, remove it from the list
 	public void remove(Command command) {
 		int i = this.commands.indexOf(command);
@@ -32,6 +39,11 @@ public class MacroUndoCommand implements Command{
 		for(int i = 0; i < commands.size(); i++) {
 			commands.get(i).undo();
 		}
+	}
+
+	@Override
+	public void save() {
+		macroSave();
 	}
 
 }

@@ -63,7 +63,7 @@ public class Board extends JPanel implements Runnable, Constants, Subject {
         this.paddleMoveCommand = new PaddleMoveCommand(paddle);
         this.clockIncrementCommand = new ClockIncrementCommand(clock);
         this.ballMoveCommand = new BallMoveCommand(ball);
-        //undo macro registering elementings in command list
+        //undo macro registering elements in command list
         this.macroUndoCommand = new MacroUndoCommand();
         this.macroUndoCommand.add(this.paddleMoveCommand);
         this.macroUndoCommand.add(this.ballMoveCommand);
@@ -146,17 +146,17 @@ public class Board extends JPanel implements Runnable, Constants, Subject {
 
     private void checkPaddle(int x1, int y1) {
         if (paddle.hitPaddle(x1, y1) && ball.getXDir() < 0) {
-            //ball.setYDir(-1);
             xSpeed = -1;
             ySpeed = -1;
-            //ball.setXDir(xSpeed);
+            /****************************************/
+        	macroUndoCommand.save();
             ballMoveCommand.execute(xSpeed, ySpeed);
         }
         if (paddle.hitPaddle(x1, y1) && ball.getXDir() > 0) {
-            //ball.setYDir(-1);
             xSpeed = 1;
             ySpeed = -1;
-            //ball.setXDir(xSpeed);
+            /****************************************/
+        	macroUndoCommand.save();
             ballMoveCommand.execute(xSpeed, ySpeed);
         }
         if (paddle.getX() <= 0) {
@@ -170,22 +170,26 @@ public class Board extends JPanel implements Runnable, Constants, Subject {
     private void checkWall(int x1, int y1) {
         if (x1 >= getWidth() - ball.getWidth()) {
             xSpeed = -Math.abs(xSpeed);
-            //ball.setXDir(xSpeed);
+            /****************************************/
+        	macroUndoCommand.save();
             ballMoveCommand.execute(xSpeed, ball.getYDir());
         }
         if (x1 <= 0) {
             xSpeed = Math.abs(xSpeed);
-            //ball.setXDir(xSpeed);
-            ballMoveCommand.execute(xSpeed, ball.getYDir());
+            /****************************************/
+        	macroUndoCommand.save();
+        	ballMoveCommand.execute(xSpeed, ball.getYDir());
         }
         if (y1 <= 0) {
-            //ball.setYDir(1);
             ySpeed = 1;
+            /****************************************/
+        	macroUndoCommand.save();
             ballMoveCommand.execute(ball.getXDir() , ySpeed);
         }
         if (y1 >= getHeight()) {
-            //ball.setYDir(-1);
         	ySpeed = -1;
+        	/****************************************/
+        	macroUndoCommand.save();
         	ballMoveCommand.execute(ball.getXDir(), ySpeed);
         }
     }
@@ -194,8 +198,9 @@ public class Board extends JPanel implements Runnable, Constants, Subject {
         for (int i = 0; i < 10; i++) {
             for (int j = 0; j < 5; j++) {
                 if (brick[i][j].hitBottom(x1, y1)) {
-                    //ball.setYDir(1);
                 	ySpeed = 1;
+                	/****************************************/
+                	macroUndoCommand.save();
                     ballMoveCommand.execute(ball.getXDir(), ySpeed);
                     if (brick[i][j].isDestroyed()) {
                         bricksLeft--;
@@ -204,7 +209,8 @@ public class Board extends JPanel implements Runnable, Constants, Subject {
                 }
                 if (brick[i][j].hitLeft(x1, y1)) {
                     xSpeed = -xSpeed;
-                    //ball.setXDir(xSpeed);
+                    /****************************************/
+                    macroUndoCommand.save();
                     ballMoveCommand.execute(xSpeed, ball.getYDir());
                     if (brick[i][j].isDestroyed()) {
                         bricksLeft--;
@@ -213,7 +219,8 @@ public class Board extends JPanel implements Runnable, Constants, Subject {
                 }
                 if (brick[i][j].hitRight(x1, y1)) {
                     xSpeed = -xSpeed;
-                    //ball.setXDir(xSpeed);
+                    /****************************************/
+                    macroUndoCommand.save();
                     ballMoveCommand.execute(xSpeed, ball.getYDir());
                     if (brick[i][j].isDestroyed()) {
                         bricksLeft--;
@@ -223,6 +230,8 @@ public class Board extends JPanel implements Runnable, Constants, Subject {
                 if (brick[i][j].hitTop(x1, y1)) {
                     //ball.setYDir(-1);
                     ySpeed = -1;
+                    /****************************************/
+                    macroUndoCommand.save();
                     ballMoveCommand.execute(ball.getXDir(), ySpeed);
                     if (brick[i][j].isDestroyed()) {
                         bricksLeft--;
@@ -280,7 +289,7 @@ public class Board extends JPanel implements Runnable, Constants, Subject {
     }
     
     public void notifyObservers() {
-    	clockIncrementCommand.execute(0, 0);
+    	//clockIncrementCommand.execute(0, 0);
         for (Observer observer : observers) {
             observer.update(TIME_STEP);
         }
@@ -313,9 +322,13 @@ public class Board extends JPanel implements Runnable, Constants, Subject {
                 }
             }
             if (key == KeyEvent.VK_LEFT) {
+            	/****************************************/
+                macroUndoCommand.save();
                 paddleMoveCommand.execute(-50, 0);
             }
             if (key == KeyEvent.VK_RIGHT) {
+            	/****************************************/
+                macroUndoCommand.save();
                 paddleMoveCommand.execute(50, 0);
             }
         }

@@ -10,4 +10,5 @@ package com.breakoutv2;
 public interface Command {
 	public void execute(int dx, int dy);
 	public void undo();
+	public void save();
 }
