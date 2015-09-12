@@ -7,9 +7,9 @@
   ########################################################################################-->
 
 	<!-- Base properties that will likely need to be changed when using this template for a different project -->
-	<property name="base.project.name" value="project-template" /> 
-	<property name="base.project.name.friendly" value="Example Project Template" />
-	<property name="assignment.name" value="examples" />
+	<property name="base.project.name" value="team3" /> 
+	<property name="base.project.name.friendly" value="Team3" />
+	<property name="assignment.name" value="fall2015/a3" />
 	<property name="code-root" value="." />
 	<property name="wwwroot" value="/u/kspace/www/fluency" />
 

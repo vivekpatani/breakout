@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<jnlp spec="1.0+" codebase="http://fluency.knownspace.org/student-files/examples/project-template/" href="project.jnlp">
+<jnlp spec="1.0+" codebase="http://fluency.knownspace.org/student-files/fall2015/a3/team3" href="project.jnlp">
   <information>
     <title>Hello World</title>
     <vendor>P532</vendor>
@@ -14,7 +14,7 @@
   </security>
   <resources>
     <j2se version="1.6+" />
-    <jar href="project-template.jar" />
+    <jar href="team3.jar" />
   </resources>
   <application-desc main-class="main.HelloWorld" />
 </jnlp>
