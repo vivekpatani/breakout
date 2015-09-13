@@ -308,7 +308,7 @@ public class Board extends JPanel implements Runnable, Constants, Subject {
                 - (3 * (getHeight() / 10)) + 50);
 
         if (lives == MIN_LIVES) {
-            g.drawString("Press the Spacebar twice to play again.",
+            g.drawString("Game Over. Press the 'Play' on the right Button to play again.",
                     getWidth() / 5, getHeight() - 20);
         }
     }

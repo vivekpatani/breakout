@@ -47,7 +47,6 @@ public class Main  implements Constants {
             e.printStackTrace();
         
         }
-
         frame.setVisible(true);
 		
     }

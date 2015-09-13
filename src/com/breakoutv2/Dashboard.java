@@ -49,6 +49,18 @@ public class Dashboard extends JPanel {
 				if(b.getLives() > Constants.MIN_LIVES) {
 					b.start();
 				}
+				else{
+					b.getBall().reset();
+					b.getClock().reset();
+		            b.setBricksLeft(Constants.MAX_BRICKS);
+		            b.makeBricks();
+		            b.setLives(Constants.MAX_LIVES);
+		            b.setLevel(1);
+		            b.setScore(0);
+		            b.repaint();
+		            b.stop();
+		            b.start();
+				}
 				b.requestFocus();
 			}
 		});
