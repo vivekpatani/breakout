@@ -3,6 +3,8 @@ package com.breakoutv2;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.GridLayout;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
 import javax.swing.JButton;
 import javax.swing.JPanel;
@@ -11,6 +13,8 @@ public class Dashboard extends JPanel {
 	/**
 	 * 
 	 */
+	
+	//Board  gameboard = new  Board();
 	private static final long serialVersionUID = 1L;
 	public JButton play;
 	public JButton pause;
@@ -37,7 +41,67 @@ public class Dashboard extends JPanel {
 		this.add(replay);
 		this.add(undo);
 		panel.add(this, gbc);
+		
+		
+		play.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				// TODO Auto-generated method stub
+				play.setText("play clicked");
+				
+			b.start();
+				
+			}
+		});
+		
+		pause.addActionListener( new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				// TODO Auto-generated method stub
+				pause.setText("pause clicked");
+				b.stop();
+				
+				
+			}
+		});
 
+		replay.addActionListener( new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				// TODO Auto-generated method stub
+				
+				replay.setText("replay clicked");
+				
+			}
+		});
+		
+		undo.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				// TODO Auto-generated method stub
+				undo.setText("undo clicked");
+				
+			}
+		});
+		
+		
+		stop.addActionListener( new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				// TODO Auto-generated method stub
+				
+			
+			}
+		});
 	}
+		
+	  	
+	
+	
 
 }

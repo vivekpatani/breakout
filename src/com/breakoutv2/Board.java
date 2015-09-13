@@ -45,8 +45,13 @@ public class Board extends JPanel implements Runnable, Constants, Subject {
     private Thread game;
 
     // Paused state
-    private volatile boolean isPaused = true;
+    public  boolean isPaused = true;
 
+    
+    
+    public Board(){
+    	
+    }
     // Constructor
     public Board(int width, int height) {
         super.setSize(width, height);
@@ -91,12 +96,12 @@ public class Board extends JPanel implements Runnable, Constants, Subject {
     }
 
     // starts the thread
-    private void start() {
+    public void start() {
         isPaused = false;
     }
 
     // stops the thread
-    private void stop() {
+    public void stop() {
         isPaused = true;
     }
 
@@ -122,7 +127,14 @@ public class Board extends JPanel implements Runnable, Constants, Subject {
                     ie.printStackTrace();
                 }
             }
+            while(isPaused){
+                 ballMoveCommand.undo();
+                 repaint();
+                	
+                }
         }
+        
+        
     }
 
     private void checkLives() {

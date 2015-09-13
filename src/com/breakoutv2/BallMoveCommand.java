@@ -36,7 +36,18 @@ public class BallMoveCommand implements Command {
 	public void undo() {
 		if (this.prevBall.size()  > 0) {
 			this.ball = prevBall.get(prevBall.size()-1);
+			
+			System.out.println("inside undo");
+			System.out.println(prevBall.get(this.prevBall.size()-1).x);
+			
+			
 			this.prevBall.remove(this.prevBall.size()-1);
+			
+			
+			System.out.println(ball.x);
+			System.out.println("vauels");
+			System.out.println(ball.y);
+			
 			//TODO redraw the ball
 		}
 	}
