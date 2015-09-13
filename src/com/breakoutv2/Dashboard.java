@@ -42,16 +42,14 @@ public class Dashboard extends JPanel {
 		this.add(undo);
 		panel.add(this, gbc);
 		
-		
 		play.addActionListener(new ActionListener() {
 			
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				// TODO Auto-generated method stub
-				play.setText("play clicked");
-				
-			b.start();
-				
+				if(b.getLives() > Constants.MIN_LIVES) {
+					b.start();
+				}
+				b.requestFocus();
 			}
 		});
 		
@@ -59,11 +57,10 @@ public class Dashboard extends JPanel {
 			
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				// TODO Auto-generated method stub
-				pause.setText("pause clicked");
-				b.stop();
-				
-				
+				if(!b.getIsPaused()) {
+					b.stop();
+				}
+				b.requestFocus();
 			}
 		});
 
@@ -74,7 +71,6 @@ public class Dashboard extends JPanel {
 				// TODO Auto-generated method stub
 				
 				replay.setText("replay clicked");
-				
 			}
 		});
 		
@@ -93,15 +89,18 @@ public class Dashboard extends JPanel {
 			
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				// TODO Auto-generated method stub
-				
-			
+				b.getBall().reset();
+				b.getClock().reset();
+	            b.setBricksLeft(Constants.MAX_BRICKS);
+	            b.makeBricks();
+	            b.setLives(Constants.MAX_LIVES);
+	            b.setLevel(1);
+	            b.setScore(0);
+	            b.repaint();
+	            b.stop();
+	            b.requestFocus();
 			}
 		});
-	}
 		
-	  	
-	
-	
-
+	}
 }

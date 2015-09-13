@@ -45,13 +45,8 @@ public class Board extends JPanel implements Runnable, Constants, Subject {
     private Thread game;
 
     // Paused state
-    public  boolean isPaused = true;
+    private volatile boolean isPaused = true;
 
-    
-    
-    public Board(){
-    	
-    }
     // Constructor
     public Board(int width, int height) {
         super.setSize(width, height);
@@ -81,9 +76,42 @@ public class Board extends JPanel implements Runnable, Constants, Subject {
         game.start();
 
     }
+    
+    //Accessors
+    public boolean getIsPaused() {
+    	return this.isPaused;
+    }
+    public int getLives() {
+    	return this.lives;
+    }
+    public int getBricksLeft() {
+    	return this.bricksLeft;
+    }
+    public int getScore() {
+    	return this.score;
+    }
+    public Ball getBall() {
+    	return this.ball;
+    }
+    public Clock getClock() {
+    	return this.clock;
+    }
 
+    //Setters
+    public void setBricksLeft(int num) {
+    	this.bricksLeft = num;
+    }
+    public void setLives(int num) {
+    	this.lives = num;
+    }
+    public void setLevel(int num) {
+    	this.level = num;
+    }
+    public void setScore(int num) {
+    	this.score = num;
+    }
     // fills the array of bricks
-    private void makeBricks() {
+    protected void makeBricks() {
         for (int i = 0; i < 10; i++) {
             for (int j = 0; j < 5; j++) {
                 brick[i][j] = new Brick((i * BRICK_WIDTH) + 10,
@@ -96,12 +124,12 @@ public class Board extends JPanel implements Runnable, Constants, Subject {
     }
 
     // starts the thread
-    public void start() {
+    protected void start() {
         isPaused = false;
     }
 
     // stops the thread
-    public void stop() {
+    protected void stop() {
         isPaused = true;
     }
 
@@ -127,14 +155,7 @@ public class Board extends JPanel implements Runnable, Constants, Subject {
                     ie.printStackTrace();
                 }
             }
-            while(isPaused){
-                 ballMoveCommand.undo();
-                 repaint();
-                	
-                }
         }
-        
-        
     }
 
     private void checkLives() {
@@ -311,7 +332,7 @@ public class Board extends JPanel implements Runnable, Constants, Subject {
         @Override
         public void keyPressed(KeyEvent ke) {
             int key = ke.getKeyCode();
-            if (key == KeyEvent.VK_SPACE) {
+            /*if (key == KeyEvent.VK_SPACE) {
                 if (lives > MIN_LIVES) {
                     if (!isPaused) {
                         stop();
@@ -332,7 +353,7 @@ public class Board extends JPanel implements Runnable, Constants, Subject {
                         }
                     }
                 }
-            }
+            }*/
             if (key == KeyEvent.VK_LEFT) {
             	/****************************************/
                 macroUndoCommand.save();
