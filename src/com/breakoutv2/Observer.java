@@ -10,5 +10,5 @@ package com.breakoutv2;
  */
 
 public interface Observer {
-    void update(Ball ball, Paddle paddle, Clock clock);
+    void update(Ball ball, Paddle paddle, Clock clock, Brick[][] brick);
 }

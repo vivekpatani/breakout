@@ -73,7 +73,7 @@ public class Ball extends Structure implements Observer {
 	}
 
     @Override
-    public void update(Ball ball, Paddle paddle, Clock clock) {
+    public void update(Ball ball, Paddle paddle, Clock clock, Brick[][] brick) {
         x += xDir * TIME_STEP / SLOWDOWN;
         y += yDir * TIME_STEP / SLOWDOWN;
     }

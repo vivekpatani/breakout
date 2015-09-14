@@ -53,7 +53,7 @@ public class BallMoveCommand implements Command, Observer {
 	}
 
 	@Override
-	public void update(Ball ball, Paddle paddle, Clock clock) {
+	public void update(Ball ball, Paddle paddle, Clock clock, Brick[][] brick) {
 		this.ball = ball;
 	}
 }

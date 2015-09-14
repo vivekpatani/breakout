@@ -30,6 +30,7 @@ public class Board extends JPanel implements Runnable, Constants, Subject {
     private PaddleMoveCommand paddleMoveCommand;
     private ClockIncrementCommand clockIncrementCommand;
     private BallMoveCommand ballMoveCommand;
+    private BrickCommand brickCommand;
     // Items on-screen
     private Paddle paddle;
     private Ball ball;
@@ -66,15 +67,21 @@ public class Board extends JPanel implements Runnable, Constants, Subject {
         this.paddleMoveCommand = new PaddleMoveCommand(paddle);
         this.clockIncrementCommand = new ClockIncrementCommand(clock);
         this.ballMoveCommand = new BallMoveCommand(ball);
+        this.brickCommand = new BrickCommand(this.brick);
         //undo macro registering elements in command list
         this.macroUndoCommand = new MacroUndoCommand();
         this.macroUndoCommand.add(this.paddleMoveCommand);
         this.macroUndoCommand.add(this.ballMoveCommand);
         this.macroUndoCommand.add(this.clockIncrementCommand);
+        this.macroUndoCommand.add(brickCommand);
         
         observers = new ArrayList<Observer>();
         register(ball);
         register(clock);
+        register(this.paddleMoveCommand);
+        register(this.clockIncrementCommand);
+        register(this.ballMoveCommand);
+        register(this.brickCommand);
         game = new Thread(this);
         game.start();
 
@@ -327,7 +334,7 @@ public class Board extends JPanel implements Runnable, Constants, Subject {
     public void notifyObservers() {
     	//clockIncrementCommand.execute(0, 0);
         for (Observer observer : observers) {
-            observer.update(this.ball, this.paddle, this.clock);
+            observer.update(this.ball, this.paddle, this.clock, this.brick);
         }
     }
     // Private class that handles gameplay and controls
