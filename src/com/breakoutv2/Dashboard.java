@@ -72,6 +72,7 @@ public class Dashboard extends JPanel {
 				if(!b.getIsPaused()) {
 					b.stop();
 				}
+				b.getBallMoveCommand().print();
 				b.requestFocus();
 			}
 		});
@@ -90,9 +91,10 @@ public class Dashboard extends JPanel {
 			
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				// TODO Auto-generated method stub
-				undo.setText("undo clicked");
-				
+				b.stop();
+				b.getMacroUndoCommand().undo();
+				b.repaint();
+				b.requestFocus();
 			}
 		});
 		

@@ -64,10 +64,10 @@ public class Board extends JPanel implements Runnable, Constants, Subject {
                 Color.BLACK);
         clock = new Clock(STATUS_LOCATION_X, getHeight() - getHeight()/2, BALL_WIDTH, BALL_HEIGHT,
                 Color.red);
-        this.paddleMoveCommand = new PaddleMoveCommand(paddle);
+        this.paddleMoveCommand = new PaddleMoveCommand(this, paddle);
         this.clockIncrementCommand = new ClockIncrementCommand(clock);
-        this.ballMoveCommand = new BallMoveCommand(ball);
-        this.brickCommand = new BrickCommand(this.brick);
+        this.ballMoveCommand = new BallMoveCommand(this, ball);
+        this.brickCommand = new BrickCommand(this, this.brick);
         //undo macro registering elements in command list
         this.macroUndoCommand = new MacroUndoCommand();
         this.macroUndoCommand.add(this.paddleMoveCommand);
@@ -106,6 +106,18 @@ public class Board extends JPanel implements Runnable, Constants, Subject {
     public Clock getClock() {
     	return this.clock;
     }
+    public BallMoveCommand getBallMoveCommand() {
+    	return this.ballMoveCommand;
+    }
+    public MacroUndoCommand getMacroUndoCommand() {
+    	return this.macroUndoCommand;
+    }
+    public Thread getThread() {
+    	return this.game;
+    }
+    public void setThread(Thread thread) {
+    	this.game = thread;
+    }
 
     //Setters
     public void setBricksLeft(int num) {
@@ -119,6 +131,21 @@ public class Board extends JPanel implements Runnable, Constants, Subject {
     }
     public void setScore(int num) {
     	this.score = num;
+    }
+    protected void setBrick(Brick[][] brick) {
+    	this.brick = brick;
+    }
+    protected void setBrick(Brick brick, int i, int j) {
+    	this.brick[i][j] = brick;
+    }
+    protected void setBall(Ball ball) {
+    	this.ball = ball;
+    }
+    protected void setPaddle(Paddle paddle) {
+    	this.paddle = paddle;
+    }
+    protected void setClock(Clock clock) {
+    	this.clock = clock;
     }
     // fills the array of bricks
     protected void makeBricks() {
@@ -136,10 +163,15 @@ public class Board extends JPanel implements Runnable, Constants, Subject {
     // starts the thread
     protected void start() {
         isPaused = false;
+        if(this.game == null) {
+        	System.out.println("Game is null");
+        	this.game = new Thread(this);
+        	this.game.start();
+        }
     }
 
     // stops the thread
-    protected void stop() {
+    void stop() {
         isPaused = true;
     }
 
@@ -243,6 +275,7 @@ public class Board extends JPanel implements Runnable, Constants, Subject {
                 if (brick[i][j].hitBottom(x1, y1)) {
                 	ySpeed = 1;
                 	/****************************************/
+                	brickCommand.saveBrick(i, j);
                 	macroUndoCommand.save();
                     ballMoveCommand.execute(ball.getXDir(), ySpeed);
                     if (brick[i][j].isDestroyed()) {
@@ -253,6 +286,7 @@ public class Board extends JPanel implements Runnable, Constants, Subject {
                 if (brick[i][j].hitLeft(x1, y1)) {
                     xSpeed = -xSpeed;
                     /****************************************/
+                    brickCommand.saveBrick(i, j);
                     macroUndoCommand.save();
                     ballMoveCommand.execute(xSpeed, ball.getYDir());
                     if (brick[i][j].isDestroyed()) {
@@ -263,6 +297,7 @@ public class Board extends JPanel implements Runnable, Constants, Subject {
                 if (brick[i][j].hitRight(x1, y1)) {
                     xSpeed = -xSpeed;
                     /****************************************/
+                    brickCommand.saveBrick(i, j);
                     macroUndoCommand.save();
                     ballMoveCommand.execute(xSpeed, ball.getYDir());
                     if (brick[i][j].isDestroyed()) {
@@ -274,6 +309,7 @@ public class Board extends JPanel implements Runnable, Constants, Subject {
                     //ball.setYDir(-1);
                     ySpeed = -1;
                     /****************************************/
+                    brickCommand.saveBrick(i, j);
                     macroUndoCommand.save();
                     ballMoveCommand.execute(ball.getXDir(), ySpeed);
                     if (brick[i][j].isDestroyed()) {

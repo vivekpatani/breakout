@@ -12,18 +12,28 @@ import java.util.ArrayList;
 public class BallMoveCommand implements Command, Observer {
 	private Ball ball;
 	private ArrayList<Ball> prevBall;
+	private Board subject;
 	
-	public BallMoveCommand(Ball ball) {
+	public BallMoveCommand(Board subject, Ball ball) {
+		this.subject = subject;
 		this.ball = ball;
 		this.prevBall = new ArrayList<Ball>();
 	}
 	
 	public void ballSave() {
-		this.prevBall.add(ball);
+		Ball temp = new Ball(this.ball.x, this.ball.y, this.ball.width, this.ball.height, this.ball.color);
+		this.prevBall.add(temp);
 	}
 	
 	public void save() {
 		ballSave();
+	}
+	
+	public void print() {
+		System.out.println("Size: "+this.prevBall.size());
+		for(int i = 0; i < this.prevBall.size(); i++) {
+			System.out.println("X: "+this.prevBall.get(i).x+" Y:" +this.prevBall.get(i).y);
+		}
 	}
 
 	@Override
@@ -36,18 +46,8 @@ public class BallMoveCommand implements Command, Observer {
 	public void undo() {
 		if (this.prevBall.size()  > 0) {
 			this.ball = prevBall.get(prevBall.size()-1);
-			
-			System.out.println("inside undo");
-			System.out.println(prevBall.get(this.prevBall.size()-1).x);
-			
-			
+			this.subject.setBall(this.ball);
 			this.prevBall.remove(this.prevBall.size()-1);
-			
-			
-			System.out.println(ball.x);
-			System.out.println("vauels");
-			System.out.println(ball.y);
-			
 			//TODO redraw the ball
 		}
 	}

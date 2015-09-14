@@ -14,14 +14,17 @@ import java.util.ArrayList;
 public class PaddleMoveCommand implements Command, Observer{
 	private Paddle paddle;
 	private ArrayList<Paddle> prevPaddle;
+	private Board subject;
 	
-	public PaddleMoveCommand(Paddle paddle) {
+	public PaddleMoveCommand(Board subject, Paddle paddle) {
+		this.subject = subject;
 		this.paddle = paddle;
 		this.prevPaddle = new ArrayList<Paddle>();
 	}
 	
 	public void paddleSave() {
-		this.prevPaddle.add(paddle);
+		Paddle temp = new Paddle(this.paddle.x, this.paddle.y, this.paddle.width, this.paddle.height, this.paddle.color);
+		this.prevPaddle.add(temp);
 	}
 	
 	public void save() {
@@ -37,6 +40,7 @@ public class PaddleMoveCommand implements Command, Observer{
 	public void undo() {
 		if (this.prevPaddle.size()  > 0) {
 			this.paddle = this.prevPaddle.get(this.prevPaddle.size()-1);
+			this.subject.setPaddle(this.paddle);
 			this.prevPaddle.remove(this.prevPaddle.size()-1);
 			//TODO redraw the paddle
 		}
