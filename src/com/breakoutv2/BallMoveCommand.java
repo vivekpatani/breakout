@@ -9,7 +9,7 @@ import java.util.ArrayList;
  * 
  * Andres, Shruti, Vivek, Yash
  */
-public class BallMoveCommand implements Command {
+public class BallMoveCommand implements Command, Observer {
 	private Ball ball;
 	private ArrayList<Ball> prevBall;
 	
@@ -50,5 +50,10 @@ public class BallMoveCommand implements Command {
 			
 			//TODO redraw the ball
 		}
+	}
+
+	@Override
+	public void update(Ball ball, Paddle paddle, Clock clock) {
+		this.ball = ball;
 	}
 }

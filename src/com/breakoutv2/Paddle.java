@@ -16,7 +16,7 @@ import java.awt.Graphics;
 
 public class Paddle extends Structure {
     // Variables
-    private int xSpeed;
+    //private int xSpeed;
 
     // Constructor
     public Paddle(int x, int y, int width, int height, Color color) {

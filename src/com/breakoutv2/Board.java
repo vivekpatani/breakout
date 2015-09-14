@@ -5,7 +5,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.awt.Color;
 import java.awt.Graphics;
-import java.awt.Toolkit;
 import java.awt.event.*;
 
 import javax.swing.JPanel;
@@ -21,7 +20,11 @@ import javax.swing.JPanel;
  */
 
 public class Board extends JPanel implements Runnable, Constants, Subject {
-    private final int STATUS_LOCATION_X = 10, TIME_STEP = 5;
+    /**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+	private final int STATUS_LOCATION_X = 10;
     //commands
     private MacroUndoCommand macroUndoCommand;
     private PaddleMoveCommand paddleMoveCommand;
@@ -39,7 +42,7 @@ public class Board extends JPanel implements Runnable, Constants, Subject {
              xSpeed, ySpeed, level = 1;
 
     // Player's name
-    private String playerName;
+    //private String playerName;
 
     // The game
     private Thread game;
@@ -324,7 +327,7 @@ public class Board extends JPanel implements Runnable, Constants, Subject {
     public void notifyObservers() {
     	//clockIncrementCommand.execute(0, 0);
         for (Observer observer : observers) {
-            observer.update(TIME_STEP);
+            observer.update(this.ball, this.paddle, this.clock);
         }
     }
     // Private class that handles gameplay and controls
@@ -332,28 +335,6 @@ public class Board extends JPanel implements Runnable, Constants, Subject {
         @Override
         public void keyPressed(KeyEvent ke) {
             int key = ke.getKeyCode();
-            /*if (key == KeyEvent.VK_SPACE) {
-                if (lives > MIN_LIVES) {
-                    if (!isPaused) {
-                        stop();
-                    } else {
-                        start();
-                    }
-                } else {
-                    paddle.setWidth(getWidth() / 7);
-                    lives = MAX_LIVES;
-                    score = 0;
-                    bricksLeft = MAX_BRICKS;
-                    level = 1;
-                    makeBricks();
-                    isPaused = true;
-                    for (int i = 0; i < 10; i++) {
-                        for (int j = 0; j < 5; j++) {
-                            brick[i][j].setDestroyed(false);
-                        }
-                    }
-                }
-            }*/
             if (key == KeyEvent.VK_LEFT) {
             	/****************************************/
                 macroUndoCommand.save();

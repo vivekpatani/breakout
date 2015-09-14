@@ -9,7 +9,7 @@ import java.util.ArrayList;
  * 
  * Andres, Shruti, Vivek, and Yash
  */
-public class ClockIncrementCommand implements Command{
+public class ClockIncrementCommand implements Command, Observer{
 	private Clock clock;
 	private ArrayList<Integer> prevTime;
 
@@ -37,5 +37,10 @@ public class ClockIncrementCommand implements Command{
 			this.prevTime.remove(this.prevTime.size()-1);
 			//TODO redraw clock
 		}
+	}
+
+	@Override
+	public void update(Ball ball, Paddle paddle, Clock clock) {
+		this.clock = clock;
 	}
 }

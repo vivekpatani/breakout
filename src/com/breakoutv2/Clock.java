@@ -50,7 +50,8 @@ public class Clock  extends Structure implements Observer {
     }
 
     @Override
-    public void update(int timeStep) {
-        time = (time + timeStep) % (3600 * MILLISEC_TO_SEC);
+    public void update(Ball ball, Paddle paddle, Clock clock) {
+        //time = (time + timeStep) % (3600 * MILLISEC_TO_SEC);
+    	this.time = clock.getTime() + TIME_STEP;
     }
 }

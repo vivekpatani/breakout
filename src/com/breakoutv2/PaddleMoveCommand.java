@@ -11,7 +11,7 @@ import java.util.ArrayList;
  * Andres, Shruti, Vivek, and Yash
  */
 
-public class PaddleMoveCommand implements Command{
+public class PaddleMoveCommand implements Command, Observer{
 	private Paddle paddle;
 	private ArrayList<Paddle> prevPaddle;
 	
@@ -40,5 +40,10 @@ public class PaddleMoveCommand implements Command{
 			this.prevPaddle.remove(this.prevPaddle.size()-1);
 			//TODO redraw the paddle
 		}
+	}
+
+	@Override
+	public void update(Ball ball, Paddle paddle, Clock clock) {
+		this.paddle = paddle;
 	}
 }

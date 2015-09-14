@@ -42,5 +42,7 @@ public interface Constants {
     public static final int NO_BRICKS = 0;
     public static final int BRICK_ROWS = 5;
     public static final int BRICK_COLUMNS = 10;
+    
+    public static final int TIME_STEP = 5;
 
 }
